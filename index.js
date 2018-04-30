@@ -100,13 +100,12 @@ class Employer{
 
   mealTotals(){
     let obj = {};
-    this.meals().forEach((meal)=>{
-      obj[meal.id] = 0;
-    });
-    Object.keys(obj).forEach((id)=>{
+
+    this.meals().map(meal=>meal.id).forEach((id)=>{
       obj[id]=this.deliveries().filter(d=>d.mealId===parseInt(id)).length;
       ///triple equals does not work...STRING!
     });
+
     return obj;
   }
 }
