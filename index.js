@@ -28,6 +28,21 @@ class Meal {
     // debugger
     return sortedMeals;
   }
+
+  customers () {
+    // returns a unique list of customers who have ordered this meal
+    // customer.delivery() which will return an array with delivery objects, then delivery.customers() to get customer object
+    let allDeliveries = this.deliveries();
+    let allCustomers = allDeliveries.map(delivery => delivery.customer());
+    // let deepCopy = allMeals.map(meal => Object.assign({}, meal))
+    
+    function onlyUnique(value, index, self) { 
+      return self.indexOf(value) === index;
+  }
+
+  return allCustomers.filter(onlyUnique)
+    // debugger
+  }
 }
 
 class Delivery {
@@ -44,6 +59,13 @@ class Delivery {
       return meal.id === this.mealId;
     });
   }
+
+  customer() {
+    // returns the meal instance associated with a particular delivery; delivery belongs to a meal
+    return store.customers.find(customer => {
+      return customer.id === this.customerId;
+    });
+  }
 }
 
 class Customer {
@@ -57,6 +79,28 @@ class Customer {
     return store.deliveries.filter(delivery => {
       return delivery.customerId === this.id;
     });
+  }
+  meals () {
+    // returns all unique meals a customer has ordered
+    // customer.delivery() which will return an array with delivery objects, then delivery.meals() to get meal object
+    let allDeliveries = this.deliveries();
+    let allMeals = allDeliveries.map(delivery => delivery.meal());
+    // let deepCopy = allMeals.map(meal => Object.assign({}, meal))
+    
+    function onlyUnique(value, index, self) { 
+      return self.indexOf(value) === index;
+  }
+
+  return allMeals.filter(onlyUnique)
+    // debugger
+  }
+  // calculates totalSpent()
+
+  totalSpent() {
+    return this.meals().reduce(
+      (accumulator, currentMeal) => {
+      return accumulator + currentMeal.price
+    }, 0);
   }
 }
 
