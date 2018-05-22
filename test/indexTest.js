@@ -134,6 +134,7 @@ describe('index.js', () => {
       });
       describe('meals()', () => {
         it('returns all unique meals a customer has ordered', () => {
+          console.log(guy.meals())
           expect(guy.meals().length).to.equal(2);
         });
       });
